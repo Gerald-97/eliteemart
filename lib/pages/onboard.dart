@@ -43,35 +43,60 @@ class _OnBoardState extends State<OnBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(top: 60, left: 30, right: 30, bottom: 30),
+        body: Stack(
+      children: <Widget>[
+        Container(
+          height: 100,
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textBaseline: TextBaseline.alphabetic,
+                children: <Widget>[
+                  Text(
+                    'Welcome!',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  FlatButton(
+                      onPressed: () {},
+                      splashColor: Colors.blueGrey,
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          color: Colors.black54,
+                        ),
+                      ))
+                ],
+              )),
+        ),
+        PageView.builder(
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            return SlidingPages2(
+                images[index], titles[index], subtitles[index]);
+          },
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 120,
+            alignment: Alignment.topCenter,
+            child: FlatButton(
+              onPressed: () {},
               child: Text(
-                'Welcome!',
+                'Continue',
                 style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
                 ),
               ),
             ),
           ),
-          PageView(
-            children: <Widget>[
-              SlidingPages2(images[0], titles[0], subtitles[0]),
-              SlidingPages2(images[1], titles[1], subtitles[1]),
-              SlidingPages2(images[2], titles[2], subtitles[2]),
-            ],
-            onPageChanged: (value) {
-              setState(() {
-                slideIndex = value;
-              });
-            },
-          ),
-        ],
-      )
-    );
+        )
+      ],
+    ));
   }
 }

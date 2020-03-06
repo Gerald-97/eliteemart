@@ -1,0 +1,4 @@
+#Wed Mar 04 22:22:30 WAT 2020
+base.0=C\:\\Users\\Gerald\\Documents\\Enyata_Training\\Flutter\\eliteemart\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
