@@ -9,11 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:eliteemart/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  bool hasUsedApp =
+      (await SharedPreferences.getInstance()).getBool("hasUsedApp") ?? false;
+  print("has used app $hasUsedApp");
+
+  bool isToken = false;
+
+  String token =
+      (await SharedPreferences.getInstance()).getString("token") ?? '';
+  if (token != null) {
+    isToken = true;
+  }
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(EMart());
+    await tester.pumpWidget(EMart(hasUsedApp, isToken));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
