@@ -1,11 +1,14 @@
 import 'package:eliteemart/components/widgets.dart';
 import 'package:eliteemart/extras/colors.dart';
+import 'package:eliteemart/models/product.dart';
 import 'package:eliteemart/models/products.dart';
+import 'package:eliteemart/models/subcategory.dart';
 import 'package:flutter/material.dart';
 
 class SingleFood extends StatefulWidget {
-  final Food food;
-  SingleFood(this.food);
+  final ProductElement item;
+
+  SingleFood(this.item);
 
   @override
   _SingleFoodState createState() => _SingleFoodState();
@@ -62,44 +65,44 @@ class _SingleFoodState extends State<SingleFood> {
                           ),
                         ],
                         image: DecorationImage(
-                          image: AssetImage(
-                            widget.food.image,
+                          image: NetworkImage(
+                            widget.item.productAvatar,
                           ),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    height: size.height / 3.2,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Card(
-                        elevation: 3,
-                        borderOnForeground: false,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(
-                            color: AppColor.onBoardButtonColor,
-                            width: 2,
-                          ),
-                        ),
-                        color: Colors.white,
-                        child: Container(
-                          width: size.width / 4,
-                          height: size.height / 10,
-                          child: Card(
-                            elevation: 0,
-                            shape: CircleBorder(),
-                            child: Image.asset(
-                              widget.food.vendorImage,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+//                  Container(
+//                    height: size.height / 3.2,
+//                    child: Align(
+//                      alignment: Alignment.bottomCenter,
+//                      child: Card(
+//                        elevation: 3,
+//                        borderOnForeground: false,
+//                        shape: RoundedRectangleBorder(
+//                          borderRadius: BorderRadius.circular(5),
+//                          side: BorderSide(
+//                            color: AppColor.onBoardButtonColor,
+//                            width: 2,
+//                          ),
+//                        ),
+//                        color: Colors.white,
+//                        child: Container(
+//                          width: size.width / 4,
+//                          height: size.height / 10,
+//                          child: Card(
+//                            elevation: 0,
+//                            shape: CircleBorder(),
+//                            child: Image.network(
+//                              widget.item.productAvatar,
+//                              fit: BoxFit.cover,
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
                 ],
               ),
               SizedBox(
@@ -111,7 +114,7 @@ class _SingleFoodState extends State<SingleFood> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-                  widget.food.foodName,
+                  widget.item.productName,
                   style: TextStyle(
                     fontSize: 40,
                     color: Colors.black87,
@@ -133,7 +136,7 @@ class _SingleFoodState extends State<SingleFood> {
                       ),
                     ),
                     Text(
-                      widget.food.price,
+                      widget.item.productPrice,
                       style: TextStyle(
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
@@ -146,7 +149,7 @@ class _SingleFoodState extends State<SingleFood> {
               Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
                 child: Text(
-                  widget.food.description,
+                  widget.item.slug,
                   style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black54),
                 ),
               ),
@@ -167,7 +170,7 @@ class _SingleFoodState extends State<SingleFood> {
                       ),
                     ),
                     Text(
-                      'XXX',
+                      widget.item.productQuantity.toString(),
                       style: TextStyle(
                           fontSize: 20,
                           fontStyle: FontStyle.italic,
