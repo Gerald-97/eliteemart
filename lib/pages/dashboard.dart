@@ -1,6 +1,7 @@
 import 'package:eliteemart/components/bottom_app_bar.dart';
 import 'package:eliteemart/components/dash.dart';
 import 'package:eliteemart/extras/colors.dart';
+import 'package:eliteemart/pages/cart.dart';
 import 'package:eliteemart/pages/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +13,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _index = 0;
 
-
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -39,7 +38,14 @@ class _DashboardState extends State<Dashboard> {
       floatingActionButton: FloatingActionButton(
         splashColor: AppColor.onBoardButtonColor,
         backgroundColor: Colors.white,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Cart(),
+            ),
+          );
+        },
         tooltip: 'Your cart',
         child: Icon(
           Icons.fastfood,

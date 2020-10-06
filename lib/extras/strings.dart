@@ -17,4 +17,9 @@ class Strings {
   static const String base_url = 'https://super-mart.herokuapp.com/api';
   static const String release_version = 'v1';
 
+  static const String new_cart = 'NEW_CART_LIST';
+  static const String new_cart_2 = 'NEW_CART_LIST_2';
+
+  static const String cart_item_ = 'CART_ITEM_';
+
 }

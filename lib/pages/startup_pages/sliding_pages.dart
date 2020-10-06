@@ -27,7 +27,6 @@ class _SlidingPagesState extends State<SlidingPages> {
             child: Image.asset(
               widget.image,
               fit: BoxFit.cover,
-//              width: double.infinity,
               height: MediaQuery.of(context).size.height / 2.5,
             ),
             borderRadius: BorderRadius.circular(20),

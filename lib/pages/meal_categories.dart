@@ -1,6 +1,6 @@
 import 'package:eliteemart/extras/colors.dart';
-import 'package:eliteemart/methods/categories.dart';
-import 'package:eliteemart/models/products.dart';
+import 'package:eliteemart/methods/api_calls.dart';
+import 'package:eliteemart/models/subcategory.dart';
 import 'package:eliteemart/pages/category_pages.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +10,14 @@ class AllCategories extends StatefulWidget {
 }
 
 class _AllCategoriesState extends State<AllCategories> {
-  List<MealCategory> categories;
+  List<Subcategory> subCategoryItems = [];
+
+  SubCategory subCategories = SubCategory();
+
+  bool _isLoading = true;
+
   void initState() {
-    categories = Meal().getCategories();
+    getSubCategories();
     super.initState();
   }
 
@@ -54,7 +59,7 @@ class _AllCategoriesState extends State<AllCategories> {
               child: GridView.count(
                   crossAxisCount: 2,
                   mainAxisSpacing: 5,
-                  children: categories.map((categories) {
+                  children: subCategoryItems.map((categories) {
                     return viewCategories(context, categories);
                   }).toList()),
             ),
@@ -64,7 +69,7 @@ class _AllCategoriesState extends State<AllCategories> {
     );
   }
 
-  Widget viewCategories(BuildContext context, MealCategory categories) {
+  Widget viewCategories(BuildContext context, Subcategory categories) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -79,27 +84,17 @@ class _AllCategoriesState extends State<AllCategories> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-            image: AssetImage(
-              categories.image,
-            ),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              AppColor.onBoardButtonColorLight.withOpacity(0.2),
-              BlendMode.darken,
-            ),
-          ),
         ),
         child: Padding(
           padding: EdgeInsets.all(15.0),
-          child: Column(
+          child: _isLoading ? CircularProgressIndicator() : Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Stack(
                 children: <Widget>[
                   Text(
-                    categories.title,
+                    categories.subCategoryName,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -110,7 +105,7 @@ class _AllCategoriesState extends State<AllCategories> {
                     ),
                   ),
                   Text(
-                    categories.title,
+                    categories.subCategoryName,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -124,5 +119,27 @@ class _AllCategoriesState extends State<AllCategories> {
         ),
       ),
     );
+  }
+
+  void getSubCategories() {
+    var response = ApiCall().getAllSubCategories();
+    response.then((response) {
+
+      setState(() {
+        _isLoading = false;
+      });
+      var statusCode = response['status'];
+
+      print(statusCode);
+
+      if (statusCode >= 300 && statusCode <= 520) {
+        print(response['message']);
+      } else {
+        subCategories = SubCategory.fromJson(response['data']);
+        for (var items in subCategories.subcategories) {
+          subCategoryItems.add(items);
+        }
+      }
+    });
   }
 }

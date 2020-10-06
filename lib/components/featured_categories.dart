@@ -1,16 +1,15 @@
 import 'package:eliteemart/extras/colors.dart';
-import 'package:eliteemart/models/products.dart';
-import 'package:eliteemart/pages/single_food.dart';
+import 'package:eliteemart/models/product.dart';
+import 'package:eliteemart/pages/single_item.dart';
 import 'package:flutter/material.dart';
 
-Widget foodDashCard(BuildContext context, Food food) {
-  var size = MediaQuery.of(context).size;
+Widget foodDashCard(BuildContext context, ProductElement item) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SingleFood(food),
+          builder: (context) => SingleFood(item),
         ),
       );
     },
@@ -26,8 +25,9 @@ Widget foodDashCard(BuildContext context, Food food) {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
-          image: AssetImage(
-            food.image,
+          image: NetworkImage(
+            item.productAvatar ??
+                'https://www.cowgirlcontractcleaning.com/wp-content/uploads/sites/360/2018/05/placeholder-img-4.jpg',
           ),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
@@ -45,7 +45,7 @@ Widget foodDashCard(BuildContext context, Food food) {
             Stack(
               children: <Widget>[
                 Text(
-                  food.foodName,
+                  item.productName,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -58,40 +58,12 @@ Widget foodDashCard(BuildContext context, Food food) {
                   ),
                 ),
                 Text(
-                  food.foodName,
+                  item.productName,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 15,
-
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-            Stack(
-              children: <Widget>[
-                Text(
-                  food.vendor,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 0.7
-                      ..color = Colors.black87,
-                  ),
-                ),
-                Text(
-                  food.vendor,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

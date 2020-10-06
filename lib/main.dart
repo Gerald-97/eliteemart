@@ -31,6 +31,13 @@ class EMart extends StatefulWidget {
 }
 
 class _EMartState extends State<EMart> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -215,7 +215,6 @@ class _AccountSettingsState extends State<AccountSettings> {
                           decoration: InputDecoration(
                             labelText: 'Password',
                           ),
-
                           onSaved: (password) => _newPassword = password,
                           obscureText: true,
                         ),
@@ -311,7 +310,6 @@ class _AccountSettingsState extends State<AccountSettings> {
       else{
          updatePassword();
       }
-
     }
   }
 

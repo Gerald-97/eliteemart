@@ -28,6 +28,8 @@ dependencies:
   http: ^0.12.0+4
   progress_indicators: ^0.1.4
   platform_action_sheet: ^0.0.3
+  shimmer: ^1.1.0
+  numberpicker: ^1.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,6 +39,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/icon/Emart_Logo.svg.png"
 
 
 # For information on the generic Dart part of this file, see the

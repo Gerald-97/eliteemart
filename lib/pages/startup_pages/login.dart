@@ -49,152 +49,154 @@ class _LoginState extends State<Login> {
                 color: Colors.black54,
               ),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Sign In',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: EdgeInsets.only(right: 10.0, top: 20),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        hintStyle: TextStyle(
-                          color: AppColor.loginFormFont,
-                        ),
-                      ),
-                      validator: (email) => EmailValidator.validate(email)
-                          ? null
-                          : 'Invalid Email',
-                      onSaved: (email) => _email = email,
-                    ),
-                    SizedBox(
-                      height: size.width / 9,
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintStyle: TextStyle(
-                          color: AppColor.loginFormFont,
-                        ),
-                      ),
-                      validator: (password) {
-                        if (password.length < 6) {
-                          return 'Password must be more than 6 characters';
-                        } else
-                          return null;
-                      },
-                      onSaved: (password) => _password = password,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Forgot your password?',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.forgotPassword,
-                        ),
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height / 9,
-                    ),
-                    LargeButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                        }
-                        setState(() {
-                          isLoading = true;
-                        });
-                        loginUser();
-                      },
-                      color: isLoading
-                          ? Colors.grey[400]
-                          : AppColor.onBoardButtonColor,
-                      title: isLoading ? 'Please wait...' : 'Sign In',
-                      textColor: isLoading ? Colors.black87 : Colors.white,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Don\'t have an account? ',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Sign Up',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.forgotPassword,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignUp(),
-                                  ),
-                                );
-                              },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 22,
-                    ),
-                    Divider(
-                      color: AppColor.loginFormFont,
-                      thickness: 1.5,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return Dashboard();
-                            },
-                          ),
-                          (Route<dynamic> route) => false,
-                        );
-                      },
-                      child: Text(
-                        'I\'ll sign in later',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Sign In',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            )
-          ],
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.0, top: 20),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          hintStyle: TextStyle(
+                            color: AppColor.loginFormFont,
+                          ),
+                        ),
+                        validator: (email) => EmailValidator.validate(email)
+                            ? null
+                            : 'Invalid Email',
+                        onSaved: (email) => _email = email,
+                      ),
+                      SizedBox(
+                        height: size.width / 9,
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          hintStyle: TextStyle(
+                            color: AppColor.loginFormFont,
+                          ),
+                        ),
+                        validator: (password) {
+                          if (password.length < 6) {
+                            return 'Password must be more than 6 characters';
+                          } else
+                            return null;
+                        },
+                        onSaved: (password) => _password = password,
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Forgot your password?',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.forgotPassword,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {},
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height / 9,
+                      ),
+                      LargeButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            setState(() {
+                              isLoading = true;
+                            });
+                            loginUser();
+                          }
+                        },
+                        color: isLoading
+                            ? Colors.grey[400]
+                            : AppColor.onBoardButtonColor,
+                        title: isLoading ? 'Please wait...' : 'Sign In',
+                        textColor: isLoading ? Colors.black87 : Colors.white,
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Don\'t have an account? ',
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Sign Up',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.forgotPassword,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignUp(),
+                                    ),
+                                  );
+                                },
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 22,
+                      ),
+                      Divider(
+                        color: AppColor.loginFormFont,
+                        thickness: 1.5,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Dashboard();
+                              },
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: Text(
+                          'I\'ll sign in later',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -232,11 +234,13 @@ class _LoginState extends State<Login> {
           ), (Route<dynamic> route) => false);
         });
       } else {
-        print('Response message is ${response['message']}');
-        print(response);
-
         showFlushBar(response['message']);
       }
+    }).catchError((onError) {
+      setState(() {
+        isLoading = false;
+      });
+      showFlushBar(ApiCall().handleRequestError(onError));
     });
   }
 

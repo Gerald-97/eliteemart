@@ -1,8 +1,9 @@
-import 'package:eliteemart/models/products.dart';
+import 'package:eliteemart/extras/colors.dart';
+import 'package:eliteemart/models/subcategory.dart';
 import 'package:eliteemart/pages/category_pages.dart';
 import 'package:flutter/material.dart';
 
-Widget showCategories(BuildContext context, MealCategory categories) {
+Widget showCategories(BuildContext context, Subcategory categories) {
   var size = MediaQuery.of(context).size;
   return GestureDetector(
     onTap: () {
@@ -24,69 +25,61 @@ Widget showCategories(BuildContext context, MealCategory categories) {
           ),
         ],
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white70,
-        image: DecorationImage(
-          image: AssetImage(
-            categories.image,
-          ),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.grey[500].withOpacity(0.4),
-            BlendMode.darken,
-          ),
-        ),
+        color: AppColor.onBoardButtonColor,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Text(
-                  categories.title,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 1
-                      ..color = Colors.black54,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Text(
+                    categories.subCategoryName,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = .5
+                        ..color = Colors.black54,
+                    ),
                   ),
-                ),
-                Text(
-                  categories.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    categories.subCategoryName,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Stack(
-              children: <Widget>[
-                Text(
-                  categories.subtitle,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 1
-                      ..color = Colors.black54,
+                ],
+              ),
+              Stack(
+                children: <Widget>[
+                  Text(
+                    categories.id.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = .5
+                        ..color = Colors.black54,
+                    ),
                   ),
-                ),
-                Text(
-                  categories.subtitle,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                  Text(
+                    categories.id.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),

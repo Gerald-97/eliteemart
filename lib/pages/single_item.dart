@@ -1,9 +1,13 @@
-import 'package:eliteemart/components/widgets.dart';
 import 'package:eliteemart/extras/colors.dart';
+import 'package:eliteemart/extras/constants.dart';
+import 'package:eliteemart/methods/api_calls.dart';
+import 'package:eliteemart/models/cart.dart';
+import 'package:eliteemart/models/cart_send_model.dart';
 import 'package:eliteemart/models/product.dart';
-import 'package:eliteemart/models/products.dart';
-import 'package:eliteemart/models/subcategory.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class SingleFood extends StatefulWidget {
   final ProductElement item;
@@ -15,6 +19,23 @@ class SingleFood extends StatefulWidget {
 }
 
 class _SingleFoodState extends State<SingleFood> {
+  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  Function mathFunc = (Match match) => '${match[1]},';
+
+  List cartItemList = [];
+
+  Map<String, dynamic> cartItem;
+
+  List<ProductElement> cartList = [];
+
+  int _orderQtyValue = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -35,10 +56,37 @@ class _SingleFoodState extends State<SingleFood> {
         backgroundColor: Colors.white,
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-        child: LargeButton(
-          title: 'ADD TO CART',
-          onPressed: () {},
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: FlatButton(
+          onPressed:
+//              CartFile.addItemsById.containsKey(widget.item.id.toString())
+//                  ? null
+//                  :
+              () {
+//                      CartFile.addItemsById.putIfAbsent(
+//                        widget.item.id.toString(),
+//                        () => [
+//                          widget.item.id.toString(),
+//                          widget.item.productName,
+//                          widget.item.productAvatar,
+//                          widget.item.productPrice,
+//                        ],
+//                      );
+            addToCart();
+          },
+          padding: EdgeInsets.symmetric(vertical: 10),
+          color: AppColor.onBoardButtonColor,
+          disabledColor: Colors.grey,
+          splashColor: Colors.white70,
+          child: Text(
+            CartFile.addItemsById.containsKey(widget.item.id.toString())
+                ? 'Added to Cart'
+                : 'Add to Cart',
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -56,53 +104,17 @@ class _SingleFoodState extends State<SingleFood> {
                   Center(
                     child: Container(
                       width: size.width / 1.1,
-                      height: size.height / 4,
+                      height: size.height / 3,
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 10.0,
-                          ),
-                        ],
                         image: DecorationImage(
                           image: NetworkImage(
                             widget.item.productAvatar,
                           ),
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                   ),
-//                  Container(
-//                    height: size.height / 3.2,
-//                    child: Align(
-//                      alignment: Alignment.bottomCenter,
-//                      child: Card(
-//                        elevation: 3,
-//                        borderOnForeground: false,
-//                        shape: RoundedRectangleBorder(
-//                          borderRadius: BorderRadius.circular(5),
-//                          side: BorderSide(
-//                            color: AppColor.onBoardButtonColor,
-//                            width: 2,
-//                          ),
-//                        ),
-//                        color: Colors.white,
-//                        child: Container(
-//                          width: size.width / 4,
-//                          height: size.height / 10,
-//                          child: Card(
-//                            elevation: 0,
-//                            shape: CircleBorder(),
-//                            child: Image.network(
-//                              widget.item.productAvatar,
-//                              fit: BoxFit.cover,
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ),
                 ],
               ),
               SizedBox(
@@ -132,25 +144,18 @@ class _SingleFoodState extends State<SingleFood> {
                       style: TextStyle(
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
-                        color: Colors.black54
+                        color: Colors.black54,
                       ),
                     ),
                     Text(
-                      widget.item.productPrice,
+                      '₦${widget.item.productPrice}',
                       style: TextStyle(
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
-                        color: AppColor.onBoardButtonColor
+                        color: AppColor.onBoardButtonColor,
                       ),
                     ),
                   ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: Text(
-                  widget.item.slug,
-                  style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black54),
                 ),
               ),
               Divider(
@@ -166,19 +171,50 @@ class _SingleFoodState extends State<SingleFood> {
                       style: TextStyle(
                           fontSize: 20,
                           fontStyle: FontStyle.italic,
-                          color: Colors.black54
-                      ),
+                          color: Colors.black54),
                     ),
                     Text(
                       widget.item.productQuantity.toString(),
                       style: TextStyle(
                           fontSize: 20,
                           fontStyle: FontStyle.italic,
-                          color: AppColor.onBoardButtonColor
-                      ),
+                          color: AppColor.onBoardButtonColor),
                     ),
                   ],
                 ),
+              ),
+              Divider(
+                color: AppColor.onBoardButtonColorLight,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Order quantity',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.black54),
+                  ),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: NumberPicker.integer(
+                            itemExtent: 40,
+                            listViewWidth: 50,
+                            initialValue: _orderQtyValue,
+                            minValue: 0,
+                            maxValue: widget.item.productQuantity,
+                            onChanged: (newValue) =>
+                                setState(() => _orderQtyValue = newValue),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ],
           ),
@@ -187,24 +223,54 @@ class _SingleFoodState extends State<SingleFood> {
     );
   }
 
-//  Stack(
-//  children: <Widget>[
-//  Text(
-//  widget.food.vendor,
-//  style: TextStyle(
-//  color: AppColor.onBoardButtonColor,
-//  ),
-//  ),
-//  Text(
-//  widget.food.vendor,
-//  style: TextStyle(
-//  foreground: Paint()
-//  ..style = PaintingStyle.stroke
-//  ..strokeWidth = 0.1
-//  ..color = Colors.black87,
-//  ),
-//  ),
-//  ],
-//  ),
+  void addToCart() async {
+    cartItem = {"productId": widget.item.id, "quantity": _orderQtyValue};
 
+    cartItemList.add(cartItem);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int token = prefs.getInt(Constants.id);
+
+    if (token != null) {
+
+      Map<String, List> body = {"cartItems": cartItemList};
+
+      var response = ApiCall().addToCart(
+        token,
+        prefs.getString("token"),
+        body,
+      );
+
+      response.then((response) {
+        print("Api response: $response");
+
+        var statusCode = response['status'];
+
+        if(statusCode < 300) {
+          Navigator.pop(context);
+          showFlushBar(response['message']);
+        } else {
+          showFlushBar(response['message']);
+        }
+      }).catchError((onError) {
+          var e = ApiCall().handleRequestError(onError);
+        showFlushBar(e);
+      });
+    }
+
+  }
+
+  void showFlushBar(String message) {
+    Flushbar(
+      messageText: Text(
+        message,
+        style: TextStyle(color: Colors.black87),
+      ),
+      borderColor: AppColor.onBoardButtonColorLight,
+      backgroundColor: Colors.white70,
+      duration: Duration(
+        seconds: 2,
+      ),
+    )..show(context);
+  }
 }
